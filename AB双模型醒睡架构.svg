@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif">
+  <defs>
+    <marker id="mG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+    </marker>
+    <marker id="mGr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#188038"/>
+    </marker>
+    <marker id="mR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#D93025"/>
+    </marker>
+    <marker id="mT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00897B"/>
+    </marker>
+    <marker id="mPu" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8E24AA"/>
+    </marker>
+    <marker id="mAm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#B06000"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="860" fill="#FAFAFA"/>
+
+  <!-- 标题 -->
+  <text x="600" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#202124">A/B 双模型：永不停机的醒睡循环</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" fill="#5F6368">"昼夜"是角色的名字，不是时间的名字 —— 角色轮换 · 事件驱动换班 · 算力允许时双模型全时在线</text>
+
+  <!-- 显著性旁路 -->
+  <rect x="40" y="86" width="1120" height="54" fill="#F1F3F4" stroke="#9AA0A6" stroke-width="1.5"/>
+  <text x="600" y="110" text-anchor="middle" font-size="14" font-weight="600" fill="#3C4043">⚡ 显著性旁路（全天候，双模型共享）</text>
+  <text x="600" y="130" text-anchor="middle" font-size="12" fill="#5F6368">极便宜的分类器：是否打断做梦 / 提前换班？—— 听婴儿哭，不听雷雨</text>
+
+  <!-- ================= A：服务角色 ================= -->
+  <rect x="40" y="170" width="330" height="330" fill="#E8F0FE" stroke="#1A73E8" stroke-width="2.5"/>
+  <text x="60" y="204" font-size="18" font-weight="700" fill="#1A73E8">☀ A · 服务角色</text>
+  <rect x="238" y="182" width="112" height="24" fill="#188038"/>
+  <text x="294" y="199" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">全时在线</text>
+
+  <rect x="60" y="220" width="290" height="64" fill="#1A73E8"/>
+  <text x="205" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">LLM 底座（冻结权重）</text>
+  <text x="205" y="270" text-anchor="middle" font-size="11" fill="#D2E3FC">元知识 / 能力 / 高频知识</text>
+
+  <rect x="60" y="300" width="290" height="64" fill="#FFFFFF" stroke="#1A73E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="205" y="327" text-anchor="middle" font-size="14" font-weight="700" fill="#1A73E8">当日 LoRA（海马体）</text>
+  <text x="205" y="350" text-anchor="middle" font-size="11" fill="#5F6368">快权重 · 可整体丢弃</text>
+
+  <text x="60" y="404" font-size="12" fill="#202124">• 底座＋LoRA 联合推理，服务用户</text>
+  <text x="60" y="430" font-size="12" fill="#202124">• 新经验持续写入记忆库 →</text>
+  <text x="60" y="456" font-size="12" fill="#202124">• ← 检索 RAG 增强响应</text>
+
+  <!-- ================= 共享组件层 ================= -->
+  <text x="600" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="#5F6368">共享组件（双模型共用）</text>
+
+  <rect x="430" y="210" width="340" height="58" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="600" y="235" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C">外置记忆库（海马体）</text>
+  <text x="600" y="256" text-anchor="middle" font-size="10.5" fill="#3C4043">交互日志 / 失败案例 / 新知识</text>
+
+  <rect x="430" y="283" width="340" height="58" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="600" y="308" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C">RAG 知识库（长尾事实外置）</text>
+  <text x="600" y="329" text-anchor="middle" font-size="10.5" fill="#3C4043">可增删查改 · 安全的"遗忘"层</text>
+
+  <rect x="430" y="356" width="340" height="58" fill="#F3E8FD" stroke="#8E24AA" stroke-width="1.5"/>
+  <text x="600" y="381" text-anchor="middle" font-size="13" font-weight="700" fill="#6A1B9A">世界模型（做梦引擎）</text>
+  <text x="600" y="402" text-anchor="middle" font-size="10.5" fill="#3C4043">生成反事实场景 · 遗忘审计的试炼场</text>
+
+  <rect x="430" y="429" width="340" height="58" fill="#FFF8E1" stroke="#F9A825" stroke-width="1.5"/>
+  <text x="600" y="454" text-anchor="middle" font-size="13" font-weight="700" fill="#B06000">验证器（判梦）</text>
+  <text x="600" y="475" text-anchor="middle" font-size="10.5" fill="#3C4043">数学/代码免费裁判 · 开放领域裁判模型</text>
+
+  <!-- A ↔ 共享层 箭头 -->
+  <line x1="372" y1="239" x2="426" y2="239" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+  <text x="400" y="228" text-anchor="middle" font-size="10" fill="#5F6368">经验</text>
+  <line x1="428" y1="312" x2="374" y2="312" stroke="#00897B" stroke-width="2" marker-end="url(#mT)"/>
+  <text x="400" y="301" text-anchor="middle" font-size="10" fill="#00695C">检索</text>
+
+  <!-- 共享层 → B 箭头 -->
+  <line x1="772" y1="239" x2="826" y2="239" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+  <text x="799" y="228" text-anchor="middle" font-size="10" fill="#5F6368">回放</text>
+  <line x1="772" y1="385" x2="826" y2="385" stroke="#8E24AA" stroke-width="2" marker-end="url(#mPu)"/>
+  <text x="799" y="374" text-anchor="middle" font-size="10" fill="#6A1B9A">做梦</text>
+  <line x1="772" y1="458" x2="826" y2="458" stroke="#B06000" stroke-width="2" marker-end="url(#mAm)"/>
+  <text x="799" y="447" text-anchor="middle" font-size="10" fill="#B06000">判梦</text>
+
+  <!-- ================= B：做梦角色 ================= -->
+  <rect x="830" y="170" width="330" height="330" fill="#20244C" stroke="#5C6BC0" stroke-width="2.5"/>
+  <text x="850" y="204" font-size="18" font-weight="700" fill="#8AB4F8">☾ B · 做梦角色</text>
+  <rect x="1008" y="182" width="132" height="24" fill="#B06000"/>
+  <text x="1074" y="199" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">算力允许也在线</text>
+
+  <rect x="850" y="220" width="290" height="64" fill="#2E3260" stroke="#5C6BC0" stroke-width="1.5"/>
+  <text x="995" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#8AB4F8">B 推理面</text>
+  <text x="995" y="270" text-anchor="middle" font-size="11" fill="#B0B3C6">算力允许时同样在线服务</text>
+
+  <rect x="850" y="300" width="290" height="64" fill="#2E3260" stroke="#5C6BC0" stroke-width="1.5"/>
+  <text x="995" y="327" text-anchor="middle" font-size="14" font-weight="700" fill="#8AB4F8">B 训练面（蒸馏器）</text>
+  <text x="995" y="350" text-anchor="middle" font-size="11" fill="#B0B3C6">回放 → 做梦 → 判梦 → 蒸馏入底座</text>
+
+  <text x="850" y="404" font-size="12" fill="#E8EAED">• 从 A 最新 checkpoint 变基出发</text>
+  <text x="850" y="430" font-size="12" fill="#E8EAED">• 半日梦：边工作边调用世界模型</text>
+  <text x="850" y="456" font-size="12" fill="#E8EAED">• 蒸馏 LoRA＋审计通过内容入底座</text>
+
+  <!-- B → 评审 -->
+  <line x1="995" y1="502" x2="995" y2="536" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+
+  <!-- 评审门禁 -->
+  <rect x="830" y="540" width="330" height="90" fill="#FFF8E1" stroke="#F9A825" stroke-width="2"/>
+  <text x="995" y="570" text-anchor="middle" font-size="15" font-weight="700" fill="#B06000">评审 · 发布门禁</text>
+  <text x="995" y="596" text-anchor="middle" font-size="12" fill="#3C4043">遗忘审计 ＋ 安全评估 ＋ 影子 A/B 对比</text>
+  <text x="995" y="618" text-anchor="middle" font-size="10.5" fill="#5F6368">（事件驱动，非定时）</text>
+
+  <!-- 通过 → 换班 -->
+  <path d="M 826 585 H 205 V 506" fill="none" stroke="#188038" stroke-width="2.5" marker-end="url(#mGr)"/>
+  <text x="420" y="572" text-anchor="middle" font-size="12.5" font-weight="700" fill="#188038">通过 → 换班：B 转服务角色，A 转做梦角色</text>
+
+  <!-- 失败 → 回滚 -->
+  <line x1="995" y1="632" x2="995" y2="666" stroke="#D93025" stroke-width="2.5" marker-end="url(#mR)"/>
+  <text x="995" y="690" text-anchor="middle" font-size="12" font-weight="600" fill="#D93025">失败 → 回滚：丢弃 B 与当日 LoRA，A 继续服务</text>
+
+  <!-- 底部核心认知 -->
+  <rect x="40" y="716" width="1120" height="120" fill="#E6F4EA" stroke="#188038" stroke-width="1.5"/>
+  <text x="600" y="746" text-anchor="middle" font-size="14.5" font-weight="700" fill="#188038">核心认知：单模型需要睡眠（停机维护），双模型可以一直工作 —— 角色轮换而非昼夜交替</text>
+  <text x="600" y="774" text-anchor="middle" font-size="12.5" fill="#3C4043">A 服务时 B 做梦（半日梦：边在线边调用世界模型）；B 过审即换班，全程无停机 —— 海豚单半球睡眠的工程升级版</text>
+  <text x="600" y="800" text-anchor="middle" font-size="12.5" fill="#3C4043">换班即变基：每次 B 都从 A 最新 checkpoint 出发（rebase），两个模型的分歧最多差一轮学习</text>
+</svg>

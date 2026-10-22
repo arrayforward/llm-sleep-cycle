@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大模型需要一场睡眠（缩略版）</title>
+<style>
+  body {
+    font-family: system-ui, "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 24px;
+    color: #202124;
+    line-height: 1.9;
+    font-size: 16px;
+    background: #FFFFFF;
+  }
+  h1 { font-size: 28px; line-height: 1.4; margin-bottom: 8px; }
+  h2 { font-size: 21px; margin-top: 48px; border-left: 4px solid #1A73E8; padding-left: 12px; }
+  blockquote {
+    margin: 24px 0;
+    padding: 16px 20px;
+    background: #F1F8F2;
+    border-left: 4px solid #188038;
+    color: #3C4043;
+  }
+  blockquote p { margin: 0; }
+  ul { padding-left: 24px; }
+  li { margin: 8px 0; }
+  strong { color: #111; }
+  figure { margin: 32px 0; text-align: center; }
+  figure svg { max-width: 100%; height: auto; border: 1px solid #E8EAED; }
+  figcaption { font-size: 13px; color: #5F6368; margin-top: 8px; }
+  .footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid #E8EAED; font-size: 13px; color: #5F6368; }
+</style>
+</head>
+<body>
+
+<h1>大模型需要一场睡眠（缩略版）</h1>
+
+<blockquote>
+<p>一句话：大模型贵，贵在为记忆付电费；让它变便宜的前提是安全地遗忘；而遗忘的正确做法，人脑已经跑了上亿年——本文把它翻译成一套可部署的架构。</p>
+</blockquote>
+
+<h2>你在为拜占庭史付电费</h2>
+
+<p>千亿参数模型的参数里装的是什么？知识容量研究（Allen-Zhu &amp; Li）测算：每个参数约能存 2 bit 的事实。一个读过互联网的模型，参数里塞满了"某小镇的人口、冷门球员的生涯数据、拜占庭帝国某年的税制"这类长尾事实。知识是重尾分布——热点一小撮，碎片一大片。换句话说：<strong>大模型的大部分参数是事实仓库，不是推理引擎。</strong>旁证是小模型挂上 RAG 就能在知识任务上打平大得多的模型——查表替代了记忆，推理本身并不需要那么多参数。</p>
+
+<p>参数小一个数量级，推理成本、显存、部署门槛就跟着降一个数量级。而今天的成本结构是"每次推理都现场回忆一切"。把事实仓库从权重里剥离出去的办法，名字叫遗忘。</p>
+
+<p>问题是大模型不会遗忘。MoE 模型里那些从不激活的专家，能不能裁？实验说裁掉一部分损失很小，但你不敢——"不激活"是采样数据上测的，罕见输入可能恰好路由到它；裁完平均指标几乎不动，<strong>你无法用评测发现自己丢了什么</strong>。不是剪不动，是不敢剪。</p>
+
+<h2>为什么不能遗忘：知识没有地址</h2>
+
+<p>神经网络用叠加（superposition）存储：一个神经元参与成千上万个特征的编码。这不是缺陷，是训练动力学选出的最优压缩（Anthropic, Toy Models of Superposition）——容量从线性变指数。代价是：<strong>任何一条知识都没有门牌号。</strong></p>
+
+<p>所以定向遗忘（unlearning）做不干净。ICLR 2025 的研究发现，被"遗忘"的知识用一小撮数据微调就能复活，浅层遗忘下攻击成功率超 70%——信息没离开权重，只是被压住了。纠缠研究（arXiv 2510.25732）进一步证明：一条事实和其余知识缠得越紧越删不掉，这是可测量的结构属性。</p>
+
+<p>于是所有瘦身手段都在同一个权衡里打转：<strong>密度（存得多）、泛化（学得好）、可寻址（删得动），纯参数架构拿了前两个，放弃了第三个。</strong>量化是无差别降精度，剪枝是钝刀手术，只有 RAG 算"安全的遗忘"——因为它压根没把知识存进权重。但 RAG 只外置得了事实条目，外置不了技能（写代码的手感）和"用得动外挂知识"的元知识。</p>
+
+<p>更深一层：技能本身就是知识蒸出来的。象棋大师面对随机摆放的棋盘，复盘优势完全消失（Chase &amp; Simon, 1973）——棋力的载体就是几十万个内化的棋局模式。素材和成品熔在同一份权重里，事后手术拆不开。</p>
+
+<h2>人脑早就跑通了</h2>
+
+<p>人脑没有在某个单一存储里硬解这个问题，而是造了两个存储，加一套夜间流程：</p>
+
+<ul>
+<li><strong>海马体</strong>（快系统）：当天经历单次写入，碎片分开存放，不用就会自然消退；</li>
+<li><strong>新皮层</strong>（慢系统）：技能和语义的居所，混合叠加存储，和大模型权重一样删不动；</li>
+<li><strong>睡眠回放</strong>：海马体把记忆打乱、加速重播，驱动皮层把白天重新"经历"一遍，皮层用慢速可塑性学习。打乱重放的数学效果是求平均——各情景独有的细节互相抵消，共有的结构沉淀下来。<strong>遗忘是默认，记住才需要审批。</strong>深度学习里的 grokking 现象就是这套机制的微缩复刻：weight decay 持续磨掉没有梯度支持的记忆性权重，被反复强化的结构存活下来。</li>
+</ul>
+
+<p>大脑还有两个补充机制。<strong>婴儿期遗忘</strong>：三岁左右删掉几乎全部情景记忆，但语言、走路、对世界的理解全部留下——素材销毁，蒸馏物全留。工程上的模型蒸馏，就是一次人工的"三岁事件"。<strong>做梦</strong>：用内部世界模型生成从未发生过的场景，低成本演练（小鼠走迷宫前，位置细胞会预演路径）。梦是对反事实的巩固，也是 AlphaZero、STaR、RLVR 共同的生物原型。梦的要害在"判梦"：验证器多可靠，梦才有多少价值；而且幻觉有复利，梦要做得短，要勤用真实数据校准。</p>
+
+<h2>方案：醒睡周期</h2>
+
+<p>把零件拼成整机：</p>
+
+<ul>
+<li><strong>服务时</strong>：底座冻结，经验写入外置记忆库（海马体），长尾事实进 RAG；</li>
+<li><strong>巩固时</strong>：回放 → 做梦（世界模型出题）→ 判梦（验证器过滤）→ 慢速蒸馏进底座（带衰减）；同时大扫除——审计"什么已被安全提取"，已提取的碎片删除，长尾外置；</li>
+<li><strong>定期</strong>：重生蒸馏，蒸出小得多的学生模型，"三岁以后"出生，只带函数不带记忆。</li>
+</ul>
+
+<figure>
+<!-- SVG:醒睡周期架构 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="870" viewBox="0 0 1200 870" font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif">
+  <defs>
+    <marker id="mG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+    </marker>
+    <marker id="mO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#D84315"/>
+    </marker>
+    <marker id="mT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00897B"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="870" fill="#FAFAFA"/>
+
+  <!-- ===== 标题 ===== -->
+  <text x="600" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#202124">大模型醒睡周期：组件与流程</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" fill="#5F6368">服务时只改数据层（经验入库、挂 LoRA） · 巩固时才动权重（慢速蒸馏） · 定期重生（蒸馏出小模型）</text>
+
+  <!-- ================= 带一：服务态 ================= -->
+  <rect x="40" y="90" width="1120" height="200" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="65" y="122" font-size="16" font-weight="700" fill="#1A73E8">☀ 服务态（底座冻结）</text>
+
+  <!-- 用户 -->
+  <rect x="70" y="150" width="120" height="100" fill="#FFFFFF" stroke="#9AA0A6" stroke-width="1.5"/>
+  <text x="130" y="195" text-anchor="middle" font-size="14" font-weight="600" fill="#3C4043">用户 /</text>
+  <text x="130" y="216" text-anchor="middle" font-size="14" font-weight="600" fill="#3C4043">外部世界</text>
+
+  <!-- 推理引擎 -->
+  <rect x="250" y="140" width="430" height="120" fill="#E8F0FE" stroke="#1A73E8" stroke-width="2"/>
+  <text x="465" y="162" text-anchor="middle" font-size="12" fill="#1A73E8">推理引擎（联合推理）</text>
+  <rect x="270" y="172" width="190" height="70" fill="#1A73E8"/>
+  <text x="365" y="200" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">LLM 底座</text>
+  <text x="365" y="222" text-anchor="middle" font-size="11" fill="#D2E3FC">冻结权重（元知识/能力）</text>
+  <rect x="480" y="172" width="180" height="70" fill="#FFFFFF" stroke="#1A73E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="570" y="200" text-anchor="middle" font-size="14" font-weight="700" fill="#1A73E8">LoRA（当日）</text>
+  <text x="570" y="222" text-anchor="middle" font-size="11" fill="#5F6368">快权重 · 可整体丢弃</text>
+
+  <!-- 记忆库 -->
+  <rect x="750" y="140" width="190" height="110" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="845" y="168" text-anchor="middle" font-size="14" font-weight="700" fill="#00695C">外置记忆库</text>
+  <text x="845" y="190" text-anchor="middle" font-size="11" fill="#3C4043">（海马体）</text>
+  <text x="845" y="212" text-anchor="middle" font-size="11" fill="#3C4043">交互日志 / 失败案例</text>
+  <text x="845" y="232" text-anchor="middle" font-size="11" fill="#3C4043">新知识条目</text>
+
+  <!-- RAG -->
+  <rect x="970" y="140" width="190" height="110" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="1065" y="168" text-anchor="middle" font-size="14" font-weight="700" fill="#00695C">RAG 知识库</text>
+  <text x="1065" y="190" text-anchor="middle" font-size="11" fill="#3C4043">长尾事实外置</text>
+  <text x="1065" y="212" text-anchor="middle" font-size="11" fill="#3C4043">可增删查改</text>
+  <text x="1065" y="232" text-anchor="middle" font-size="11" fill="#3C4043">（安全的"遗忘"层）</text>
+
+  <!-- 服务态箭头 -->
+  <line x1="192" y1="200" x2="246" y2="200" stroke="#666" stroke-width="2" marker-end="url(#mG)" marker-start="url(#mG)"/>
+  <text x="219" y="228" text-anchor="middle" font-size="11" fill="#5F6368">请求 / 响应</text>
+
+  <line x1="682" y1="185" x2="746" y2="185" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="714" cy="172" r="11" fill="#D84315"/>
+  <text x="714" y="176" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="714" y="212" text-anchor="middle" font-size="11" fill="#5F6368">经验写入</text>
+
+  <path d="M 1065 252 V 274 H 570 V 261" fill="none" stroke="#00897B" stroke-width="2" marker-end="url(#mT)"/>
+  <text x="820" y="269" text-anchor="middle" font-size="11" fill="#00695C">检索增强（查表替代记忆）</text>
+
+  <!-- ================= 带二：巩固态 ================= -->
+  <rect x="40" y="310" width="1120" height="380" fill="#20244C" stroke="#5C6BC0" stroke-width="1.5"/>
+  <text x="65" y="342" font-size="16" font-weight="700" fill="#8AB4F8">☾ 巩固态（离线四步 + 大扫除）</text>
+
+  <!-- 巩固态组件 -->
+  <rect x="70" y="370" width="170" height="80" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="155" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C">记忆库</text>
+  <text x="155" y="424" text-anchor="middle" font-size="11" fill="#3C4043">（经验数据）</text>
+
+  <rect x="300" y="370" width="200" height="80" fill="#F3E8FD" stroke="#8E24AA" stroke-width="1.5"/>
+  <text x="400" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#6A1B9A">世界模型（做梦引擎）</text>
+  <text x="400" y="424" text-anchor="middle" font-size="11" fill="#3C4043">生成反事实场景</text>
+
+  <rect x="560" y="370" width="170" height="80" fill="#FFF8E1" stroke="#F9A825" stroke-width="1.5"/>
+  <text x="645" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#B06000">验证器（判梦）</text>
+  <text x="645" y="424" text-anchor="middle" font-size="11" fill="#3C4043">过滤对错</text>
+
+  <rect x="800" y="370" width="160" height="80" fill="#FFFFFF" stroke="#1A73E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="880" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#1A73E8">当日 LoRA</text>
+  <text x="880" y="424" text-anchor="middle" font-size="11" fill="#3C4043">快权重</text>
+
+  <!-- 图例 -->
+  <rect x="990" y="350" width="170" height="112" fill="#F5F5F5" stroke="#DADCE0"/>
+  <text x="1075" y="372" text-anchor="middle" font-size="12" font-weight="700" fill="#3C4043">图例</text>
+  <text x="1000" y="392" font-size="11" fill="#1A73E8">■ LLM 权重</text>
+  <text x="1000" y="410" font-size="11" fill="#00695C">■ 存储（记忆库/RAG）</text>
+  <text x="1000" y="428" font-size="11" fill="#6A1B9A">■ 做梦　</text>
+  <text x="1000" y="446" font-size="11" fill="#B06000">■ 判梦</text>
+
+  <!-- 蒸馏训练器 -->
+  <rect x="380" y="540" width="380" height="110" fill="#FBE9E7" stroke="#D84315" stroke-width="2"/>
+  <text x="570" y="568" text-anchor="middle" font-size="15" font-weight="700" fill="#D84315">蒸馏训练器</text>
+  <text x="570" y="592" text-anchor="middle" font-size="12" fill="#3C4043">慢速学习率 + weight decay（衰减审批）</text>
+  <text x="570" y="614" text-anchor="middle" font-size="12" fill="#3C4043">内置遗忘审计</text>
+  <text x="570" y="638" text-anchor="middle" font-size="11" fill="#B06000">审计：已安全提取 ⇄ 仍可解题（借梦境场景测试）</text>
+
+  <!-- 巩固态流程箭头 -->
+  <!-- ② 回放 -->
+  <path d="M 155 452 V 515 H 375" fill="none" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="230" cy="504" r="11" fill="#D84315"/>
+  <text x="230" y="508" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="200" y="538" text-anchor="middle" font-size="11" fill="#E8EAED">回放：打乱重放</text>
+
+  <!-- ③ 做梦出题 -->
+  <line x1="502" y1="410" x2="556" y2="410" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="529" cy="394" r="11" fill="#D84315"/>
+  <text x="529" y="398" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="529" y="457" text-anchor="middle" font-size="10" fill="#B0B3C6">出题（LLM 解题）</text>
+
+  <!-- ④ 判后通过 -->
+  <line x1="645" y1="452" x2="645" y2="536" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="668" cy="492" r="11" fill="#D84315"/>
+  <text x="668" y="496" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">4</text>
+  <text x="692" y="516" text-anchor="middle" font-size="11" fill="#E8EAED">判后通过</text>
+
+  <!-- ⑤ 当日 LoRA -->
+  <path d="M 880 452 V 580 H 764" fill="none" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="880" cy="520" r="11" fill="#D84315"/>
+  <text x="880" y="524" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">5</text>
+  <text x="905" y="508" text-anchor="middle" font-size="11" fill="#E8EAED">当日学习</text>
+
+  <!-- ⑥ 蒸馏写入底座（跨带） -->
+  <path d="M 380 595 H 288 V 246" fill="none" stroke="#D84315" stroke-width="3" marker-end="url(#mO)"/>
+  <circle cx="288" cy="560" r="11" fill="#D84315"/>
+  <text x="288" y="564" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">6</text>
+  <text x="266" y="430" font-size="11" font-weight="700" fill="#FF8A65" transform="rotate(-90 266 430)" text-anchor="middle">慢速蒸馏写入底座</text>
+  <text x="570" y="672" text-anchor="middle" font-size="10" fill="#B0B3C6">（⑥ 是唯一动权重的路径）</text>
+
+  <!-- ⑦ 碎片清除 -->
+  <path d="M 378 620 H 155 V 454" fill="none" stroke="#EF9A9A" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#mG)"/>
+  <circle cx="265" cy="608" r="11" fill="#D84315"/>
+  <text x="265" y="612" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">7</text>
+  <text x="250" y="648" text-anchor="middle" font-size="11" fill="#EF9A9A">审计通过：已提取碎片清除（真遗忘）</text>
+
+  <!-- ⑧ 长尾外置 -->
+  <rect x="980" y="560" width="180" height="70" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="1070" y="590" text-anchor="middle" font-size="12" font-weight="700" fill="#00695C">RAG 知识库</text>
+  <text x="1070" y="612" text-anchor="middle" font-size="11" fill="#3C4043">（外置汇合）</text>
+  <line x1="764" y1="600" x2="976" y2="600" stroke="#00897B" stroke-width="2" marker-end="url(#mT)"/>
+  <circle cx="870" cy="586" r="11" fill="#D84315"/>
+  <text x="870" y="590" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">8</text>
+  <text x="870" y="626" text-anchor="middle" font-size="11" fill="#80CBC4">长尾事实外置</text>
+
+  <!-- ================= 带三：重生 ================= -->
+  <rect x="40" y="710" width="1120" height="130" fill="#F1F8F2" stroke="#A5D6A7" stroke-width="1.5"/>
+  <text x="65" y="740" font-size="16" font-weight="700" fill="#2E7D32">♻ 定期 · 重生（数月 / 数年一次：婴儿期遗忘式大蒸馏）</text>
+
+  <rect x="180" y="755" width="240" height="62" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.5"/>
+  <text x="300" y="781" text-anchor="middle" font-size="14" font-weight="700" fill="#1A73E8">教师大模型</text>
+  <text x="300" y="803" text-anchor="middle" font-size="11" fill="#3C4043">（已完成多轮醒睡周期）</text>
+
+  <line x1="424" y1="786" x2="566" y2="786" stroke="#D84315" stroke-width="3" marker-end="url(#mO)"/>
+  <text x="495" y="774" text-anchor="middle" font-size="12" font-weight="600" fill="#D84315">重生蒸馏</text>
+  <text x="495" y="812" text-anchor="middle" font-size="10" fill="#5F6368">素材销毁，函数留下</text>
+
+  <rect x="570" y="755" width="260" height="62" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="700" y="781" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D32">学生小模型</text>
+  <text x="700" y="803" text-anchor="middle" font-size="11" fill="#3C4043">"三岁以后"出生：不带记忆，只带函数</text>
+
+  <text x="880" y="778" font-size="13" font-weight="700" fill="#188038">产出 ① 变强：元知识沉淀进权重</text>
+  <text x="880" y="804" font-size="13" font-weight="700" fill="#188038">产出 ② 变小：成本下降一个数量级</text>
+</svg>
+<figcaption>图 1：醒睡周期的组件与流程</figcaption>
+</figure>
+
+<p>这台机器的每个零件今天都存在：RAG 是外置海马体，replay 是回放，RLVR 是做梦加判梦，weight decay 是衰减，蒸馏是三岁事件。缺的是整机。工业界目前只做最外层——Letta 的 sleep-time agents 整理记忆，Sleep-time Compute 做离线预计算——都只碰数据层，没人动权重。原因很现实：<strong>权重是交付物，动它意味着每天重过一遍安全评估。</strong></p>
+
+<h2>落地：A/B 双模型，永不停机</h2>
+
+<p>拆这堵墙的办法，软件行业早就有：<strong>在线服务不能改，那就永远不改在线的那个。</strong></p>
+
+<p>A 服务，B 做梦。A 全时在线，底座冻结，当天的新学习挂在 LoRA 上——LoRA 就是海马体：写入快、可寻址、可整体丢弃。B 从 A 的最新 checkpoint 出发，并行跑回放、做梦、判梦、蒸馏；算力够的话 B 也可以同时在线，边服务边做"半日梦"。B 通过发布门禁（遗忘审计 + 安全评估 + 影子对比）就换班：B 转服务，A 转做梦；评审失败就回滚，丢弃 B 和当日 LoRA。</p>
+
+<p>"昼夜"只是角色的名字，不是时间的名字。<strong>单模型才需要睡觉，双模型可以一直工作</strong>——海豚左右脑轮班，是因为它只有一颗脑；而我们有副本。换班还白送一致性：每次 B 都从 A 变基（rebase），两个模型的分歧最多差一轮学习，漂移还没累积就被抹平。裂脑病人是反例——同步切断后，两个半脑各自演化，还会互相编造理由。</p>
+
+<figure>
+<!-- SVG:AB双模型醒睡架构 -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="860" viewBox="0 0 1200 860" font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif">
+  <defs>
+    <marker id="mG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+    </marker>
+    <marker id="mGr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#188038"/>
+    </marker>
+    <marker id="mR" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#D93025"/>
+    </marker>
+    <marker id="mT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00897B"/>
+    </marker>
+    <marker id="mPu" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8E24AA"/>
+    </marker>
+    <marker id="mAm" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#B06000"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="860" fill="#FAFAFA"/>
+
+  <text x="600" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#202124">A/B 双模型：永不停机的醒睡循环</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" fill="#5F6368">"昼夜"是角色的名字，不是时间的名字 —— 角色轮换 · 事件驱动换班 · 算力允许时双模型全时在线</text>
+
+  <rect x="40" y="86" width="1120" height="54" fill="#F1F3F4" stroke="#9AA0A6" stroke-width="1.5"/>
+  <text x="600" y="110" text-anchor="middle" font-size="14" font-weight="600" fill="#3C4043">⚡ 显著性旁路（全天候，双模型共享）</text>
+  <text x="600" y="130" text-anchor="middle" font-size="12" fill="#5F6368">极便宜的分类器：是否打断做梦 / 提前换班？—— 听婴儿哭，不听雷雨</text>
+
+  <rect x="40" y="170" width="330" height="330" fill="#E8F0FE" stroke="#1A73E8" stroke-width="2.5"/>
+  <text x="60" y="204" font-size="18" font-weight="700" fill="#1A73E8">☀ A · 服务角色</text>
+  <rect x="238" y="182" width="112" height="24" fill="#188038"/>
+  <text x="294" y="199" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">全时在线</text>
+
+  <rect x="60" y="220" width="290" height="64" fill="#1A73E8"/>
+  <text x="205" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">LLM 底座（冻结权重）</text>
+  <text x="205" y="270" text-anchor="middle" font-size="11" fill="#D2E3FC">元知识 / 能力 / 高频知识</text>
+
+  <rect x="60" y="300" width="290" height="64" fill="#FFFFFF" stroke="#1A73E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="205" y="327" text-anchor="middle" font-size="14" font-weight="700" fill="#1A73E8">当日 LoRA（海马体）</text>
+  <text x="205" y="350" text-anchor="middle" font-size="11" fill="#5F6368">快权重 · 可整体丢弃</text>
+
+  <text x="60" y="404" font-size="12" fill="#202124">• 底座＋LoRA 联合推理，服务用户</text>
+  <text x="60" y="430" font-size="12" fill="#202124">• 新经验持续写入记忆库 →</text>
+  <text x="60" y="456" font-size="12" fill="#202124">• ← 检索 RAG 增强响应</text>
+
+  <text x="600" y="192" text-anchor="middle" font-size="13" font-weight="700" fill="#5F6368">共享组件（双模型共用）</text>
+
+  <rect x="430" y="210" width="340" height="58" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="600" y="235" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C">外置记忆库（海马体）</text>
+  <text x="600" y="256" text-anchor="middle" font-size="10.5" fill="#3C4043">交互日志 / 失败案例 / 新知识</text>
+
+  <rect x="430" y="283" width="340" height="58" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="600" y="308" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C">RAG 知识库（长尾事实外置）</text>
+  <text x="600" y="329" text-anchor="middle" font-size="10.5" fill="#3C4043">可增删查改 · 安全的"遗忘"层</text>
+
+  <rect x="430" y="356" width="340" height="58" fill="#F3E8FD" stroke="#8E24AA" stroke-width="1.5"/>
+  <text x="600" y="381" text-anchor="middle" font-size="13" font-weight="700" fill="#6A1B9A">世界模型（做梦引擎）</text>
+  <text x="600" y="402" text-anchor="middle" font-size="10.5" fill="#3C4043">生成反事实场景 · 遗忘审计的试炼场</text>
+
+  <rect x="430" y="429" width="340" height="58" fill="#FFF8E1" stroke="#F9A825" stroke-width="1.5"/>
+  <text x="600" y="454" text-anchor="middle" font-size="13" font-weight="700" fill="#B06000">验证器（判梦）</text>
+  <text x="600" y="475" text-anchor="middle" font-size="10.5" fill="#3C4043">数学/代码免费裁判 · 开放领域裁判模型</text>
+
+  <line x1="372" y1="239" x2="426" y2="239" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+  <text x="400" y="228" text-anchor="middle" font-size="10" fill="#5F6368">经验</text>
+  <line x1="428" y1="312" x2="374" y2="312" stroke="#00897B" stroke-width="2" marker-end="url(#mT)"/>
+  <text x="400" y="301" text-anchor="middle" font-size="10" fill="#00695C">检索</text>
+
+  <line x1="772" y1="239" x2="826" y2="239" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+  <text x="799" y="228" text-anchor="middle" font-size="10" fill="#5F6368">回放</text>
+  <line x1="772" y1="385" x2="826" y2="385" stroke="#8E24AA" stroke-width="2" marker-end="url(#mPu)"/>
+  <text x="799" y="374" text-anchor="middle" font-size="10" fill="#6A1B9A">做梦</text>
+  <line x1="772" y1="458" x2="826" y2="458" stroke="#B06000" stroke-width="2" marker-end="url(#mAm)"/>
+  <text x="799" y="447" text-anchor="middle" font-size="10" fill="#B06000">判梦</text>
+
+  <rect x="830" y="170" width="330" height="330" fill="#20244C" stroke="#5C6BC0" stroke-width="2.5"/>
+  <text x="850" y="204" font-size="18" font-weight="700" fill="#8AB4F8">☾ B · 做梦角色</text>
+  <rect x="1008" y="182" width="132" height="24" fill="#B06000"/>
+  <text x="1074" y="199" text-anchor="middle" font-size="11" font-weight="600" fill="#FFFFFF">算力允许也在线</text>
+
+  <rect x="850" y="220" width="290" height="64" fill="#2E3260" stroke="#5C6BC0" stroke-width="1.5"/>
+  <text x="995" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#8AB4F8">B 推理面</text>
+  <text x="995" y="270" text-anchor="middle" font-size="11" fill="#B0B3C6">算力允许时同样在线服务</text>
+
+  <rect x="850" y="300" width="290" height="64" fill="#2E3260" stroke="#5C6BC0" stroke-width="1.5"/>
+  <text x="995" y="327" text-anchor="middle" font-size="14" font-weight="700" fill="#8AB4F8">B 训练面（蒸馏器）</text>
+  <text x="995" y="350" text-anchor="middle" font-size="11" fill="#B0B3C6">回放 → 做梦 → 判梦 → 蒸馏入底座</text>
+
+  <text x="850" y="404" font-size="12" fill="#E8EAED">• 从 A 最新 checkpoint 变基出发</text>
+  <text x="850" y="430" font-size="12" fill="#E8EAED">• 半日梦：边工作边调用世界模型</text>
+  <text x="850" y="456" font-size="12" fill="#E8EAED">• 蒸馏 LoRA＋审计通过内容入底座</text>
+
+  <line x1="995" y1="502" x2="995" y2="536" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+
+  <rect x="830" y="540" width="330" height="90" fill="#FFF8E1" stroke="#F9A825" stroke-width="2"/>
+  <text x="995" y="570" text-anchor="middle" font-size="15" font-weight="700" fill="#B06000">评审 · 发布门禁</text>
+  <text x="995" y="596" text-anchor="middle" font-size="12" fill="#3C4043">遗忘审计 ＋ 安全评估 ＋ 影子 A/B 对比</text>
+  <text x="995" y="618" text-anchor="middle" font-size="10.5" fill="#5F6368">（事件驱动，非定时）</text>
+
+  <path d="M 826 585 H 205 V 506" fill="none" stroke="#188038" stroke-width="2.5" marker-end="url(#mGr)"/>
+  <text x="420" y="572" text-anchor="middle" font-size="12.5" font-weight="700" fill="#188038">通过 → 换班：B 转服务角色，A 转做梦角色</text>
+
+  <line x1="995" y1="632" x2="995" y2="666" stroke="#D93025" stroke-width="2.5" marker-end="url(#mR)"/>
+  <text x="995" y="690" text-anchor="middle" font-size="12" font-weight="600" fill="#D93025">失败 → 回滚：丢弃 B 与当日 LoRA，A 继续服务</text>
+
+  <rect x="40" y="716" width="1120" height="120" fill="#E6F4EA" stroke="#188038" stroke-width="1.5"/>
+  <text x="600" y="746" text-anchor="middle" font-size="14.5" font-weight="700" fill="#188038">核心认知：单模型需要睡眠（停机维护），双模型可以一直工作 —— 角色轮换而非昼夜交替</text>
+  <text x="600" y="774" text-anchor="middle" font-size="12.5" fill="#3C4043">A 服务时 B 做梦（半日梦：边在线边调用世界模型）；B 过审即换班，全程无停机 —— 海豚单半球睡眠的工程升级版</text>
+  <text x="600" y="800" text-anchor="middle" font-size="12.5" fill="#3C4043">换班即变基：每次 B 都从 A 最新 checkpoint 出发（rebase），两个模型的分歧最多差一轮学习</text>
+</svg>
+<figcaption>图 2：A/B 双模型醒睡架构</figcaption>
+</figure>
+
+<h2>结尾</h2>
+
+<p>整条链路上最大的空白是<strong>遗忘审计的度量</strong>——怎么证明"这条知识已经安全地蒸成了能力，原件可以丢"。它一旦存在，遗忘就从外科名词变成运维名词，上面每个环节都会被点亮。</p>
+
+<p>我们原以为遗忘是记忆的敌人，大脑的答案相反：<strong>遗忘是提炼记忆的火</strong>——默认一切消亡，让重要的东西在火里自动浮现。大模型不缺记忆，缺的是这场火。给它一场睡眠吧。</p>
+
+<div class="footer">完整论证与参考文献见长文版《大模型需要一场睡眠：从"无法遗忘"到醒睡周期架构》。本文属"愿景综合"：每个零件有独立证据支撑，整机尚未有实验验证。</div>
+
+</body>
+</html>

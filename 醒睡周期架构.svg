@@ -1,0 +1,166 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="870" viewBox="0 0 1200 870" font-family="system-ui, 'PingFang SC', 'Microsoft YaHei', 'Noto Sans CJK SC', sans-serif">
+  <defs>
+    <marker id="mG" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#666"/>
+    </marker>
+    <marker id="mO" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#D84315"/>
+    </marker>
+    <marker id="mT" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#00897B"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="870" fill="#FAFAFA"/>
+
+  <!-- ===== 标题 ===== -->
+  <text x="600" y="40" text-anchor="middle" font-size="24" font-weight="700" fill="#202124">大模型醒睡周期：组件与流程</text>
+  <text x="600" y="66" text-anchor="middle" font-size="13" fill="#5F6368">服务时只改数据层（经验入库、挂 LoRA） · 巩固时才动权重（慢速蒸馏） · 定期重生（蒸馏出小模型）</text>
+
+  <!-- ================= 带一：服务态 ================= -->
+  <rect x="40" y="90" width="1120" height="200" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1.5"/>
+  <text x="65" y="122" font-size="16" font-weight="700" fill="#1A73E8">☀ 服务态（底座冻结）</text>
+
+  <!-- 用户 -->
+  <rect x="70" y="150" width="120" height="100" fill="#FFFFFF" stroke="#9AA0A6" stroke-width="1.5"/>
+  <text x="130" y="195" text-anchor="middle" font-size="14" font-weight="600" fill="#3C4043">用户 /</text>
+  <text x="130" y="216" text-anchor="middle" font-size="14" font-weight="600" fill="#3C4043">外部世界</text>
+
+  <!-- 推理引擎 -->
+  <rect x="250" y="140" width="430" height="120" fill="#E8F0FE" stroke="#1A73E8" stroke-width="2"/>
+  <text x="465" y="162" text-anchor="middle" font-size="12" fill="#1A73E8">推理引擎（联合推理）</text>
+  <rect x="270" y="172" width="190" height="70" fill="#1A73E8"/>
+  <text x="365" y="200" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">LLM 底座</text>
+  <text x="365" y="222" text-anchor="middle" font-size="11" fill="#D2E3FC">冻结权重（元知识/能力）</text>
+  <rect x="480" y="172" width="180" height="70" fill="#FFFFFF" stroke="#1A73E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="570" y="200" text-anchor="middle" font-size="14" font-weight="700" fill="#1A73E8">LoRA（当日）</text>
+  <text x="570" y="222" text-anchor="middle" font-size="11" fill="#5F6368">快权重 · 可整体丢弃</text>
+
+  <!-- 记忆库 -->
+  <rect x="750" y="140" width="190" height="110" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="845" y="168" text-anchor="middle" font-size="14" font-weight="700" fill="#00695C">外置记忆库</text>
+  <text x="845" y="190" text-anchor="middle" font-size="11" fill="#3C4043">（海马体）</text>
+  <text x="845" y="212" text-anchor="middle" font-size="11" fill="#3C4043">交互日志 / 失败案例</text>
+  <text x="845" y="232" text-anchor="middle" font-size="11" fill="#3C4043">新知识条目</text>
+
+  <!-- RAG -->
+  <rect x="970" y="140" width="190" height="110" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="1065" y="168" text-anchor="middle" font-size="14" font-weight="700" fill="#00695C">RAG 知识库</text>
+  <text x="1065" y="190" text-anchor="middle" font-size="11" fill="#3C4043">长尾事实外置</text>
+  <text x="1065" y="212" text-anchor="middle" font-size="11" fill="#3C4043">可增删查改</text>
+  <text x="1065" y="232" text-anchor="middle" font-size="11" fill="#3C4043">（安全的"遗忘"层）</text>
+
+  <!-- 服务态箭头 -->
+  <line x1="192" y1="200" x2="246" y2="200" stroke="#666" stroke-width="2" marker-end="url(#mG)" marker-start="url(#mG)"/>
+  <text x="219" y="228" text-anchor="middle" font-size="11" fill="#5F6368">请求 / 响应</text>
+
+  <line x1="682" y1="185" x2="746" y2="185" stroke="#666" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="714" cy="172" r="11" fill="#D84315"/>
+  <text x="714" y="176" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="714" y="212" text-anchor="middle" font-size="11" fill="#5F6368">经验写入</text>
+
+  <path d="M 1065 252 V 274 H 570 V 261" fill="none" stroke="#00897B" stroke-width="2" marker-end="url(#mT)"/>
+  <text x="820" y="269" text-anchor="middle" font-size="11" fill="#00695C">检索增强（查表替代记忆）</text>
+
+  <!-- ================= 带二：巩固态 ================= -->
+  <rect x="40" y="310" width="1120" height="380" fill="#20244C" stroke="#5C6BC0" stroke-width="1.5"/>
+  <text x="65" y="342" font-size="16" font-weight="700" fill="#8AB4F8">☾ 巩固态（离线四步 + 大扫除）</text>
+
+  <!-- 巩固态组件 -->
+  <rect x="70" y="370" width="170" height="80" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="155" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#00695C">记忆库</text>
+  <text x="155" y="424" text-anchor="middle" font-size="11" fill="#3C4043">（经验数据）</text>
+
+  <rect x="300" y="370" width="200" height="80" fill="#F3E8FD" stroke="#8E24AA" stroke-width="1.5"/>
+  <text x="400" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#6A1B9A">世界模型（做梦引擎）</text>
+  <text x="400" y="424" text-anchor="middle" font-size="11" fill="#3C4043">生成反事实场景</text>
+
+  <rect x="560" y="370" width="170" height="80" fill="#FFF8E1" stroke="#F9A825" stroke-width="1.5"/>
+  <text x="645" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#B06000">验证器（判梦）</text>
+  <text x="645" y="424" text-anchor="middle" font-size="11" fill="#3C4043">过滤对错</text>
+
+  <rect x="800" y="370" width="160" height="80" fill="#FFFFFF" stroke="#1A73E8" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <text x="880" y="402" text-anchor="middle" font-size="13" font-weight="700" fill="#1A73E8">当日 LoRA</text>
+  <text x="880" y="424" text-anchor="middle" font-size="11" fill="#3C4043">快权重</text>
+
+  <!-- 图例 -->
+  <rect x="990" y="350" width="170" height="112" fill="#F5F5F5" stroke="#DADCE0"/>
+  <text x="1075" y="372" text-anchor="middle" font-size="12" font-weight="700" fill="#3C4043">图例</text>
+  <text x="1000" y="392" font-size="11" fill="#1A73E8">■ LLM 权重</text>
+  <text x="1000" y="410" font-size="11" fill="#00695C">■ 存储（记忆库/RAG）</text>
+  <text x="1000" y="428" font-size="11" fill="#6A1B9A">■ 做梦　</text>
+  <text x="1000" y="446" font-size="11" fill="#B06000">■ 判梦</text>
+
+  <!-- 蒸馏训练器 -->
+  <rect x="380" y="540" width="380" height="110" fill="#FBE9E7" stroke="#D84315" stroke-width="2"/>
+  <text x="570" y="568" text-anchor="middle" font-size="15" font-weight="700" fill="#D84315">蒸馏训练器</text>
+  <text x="570" y="592" text-anchor="middle" font-size="12" fill="#3C4043">慢速学习率 + weight decay（衰减审批）</text>
+  <text x="570" y="614" text-anchor="middle" font-size="12" fill="#3C4043">内置遗忘审计</text>
+  <text x="570" y="638" text-anchor="middle" font-size="11" fill="#B06000">审计：已安全提取 ⇄ 仍可解题（借梦境场景测试）</text>
+
+  <!-- 巩固态流程箭头 -->
+  <!-- ② 回放 -->
+  <path d="M 155 452 V 515 H 375" fill="none" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="230" cy="504" r="11" fill="#D84315"/>
+  <text x="230" y="508" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="200" y="538" text-anchor="middle" font-size="11" fill="#E8EAED">回放：打乱重放</text>
+
+  <!-- ③ 做梦出题 -->
+  <line x1="502" y1="410" x2="556" y2="410" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="529" cy="394" r="11" fill="#D84315"/>
+  <text x="529" y="398" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="529" y="457" text-anchor="middle" font-size="10" fill="#B0B3C6">出题（LLM 解题）</text>
+
+  <!-- ④ 判后通过 -->
+  <line x1="645" y1="452" x2="645" y2="536" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="668" cy="492" r="11" fill="#D84315"/>
+  <text x="668" y="496" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">4</text>
+  <text x="692" y="516" text-anchor="middle" font-size="11" fill="#E8EAED">判后通过</text>
+
+  <!-- ⑤ 当日 LoRA -->
+  <path d="M 880 452 V 580 H 764" fill="none" stroke="#E8EAED" stroke-width="2" marker-end="url(#mG)"/>
+  <circle cx="880" cy="520" r="11" fill="#D84315"/>
+  <text x="880" y="524" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">5</text>
+  <text x="905" y="508" text-anchor="middle" font-size="11" fill="#E8EAED">当日学习</text>
+
+  <!-- ⑥ 蒸馏写入底座（跨带） -->
+  <path d="M 380 595 H 288 V 246" fill="none" stroke="#D84315" stroke-width="3" marker-end="url(#mO)"/>
+  <circle cx="288" cy="560" r="11" fill="#D84315"/>
+  <text x="288" y="564" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">6</text>
+  <text x="266" y="430" font-size="11" font-weight="700" fill="#FF8A65" transform="rotate(-90 266 430)" text-anchor="middle">慢速蒸馏写入底座</text>
+  <text x="570" y="672" text-anchor="middle" font-size="10" fill="#B0B3C6">（⑥ 是唯一动权重的路径）</text>
+
+  <!-- ⑦ 碎片清除 -->
+  <path d="M 378 620 H 155 V 454" fill="none" stroke="#EF9A9A" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#mG)"/>
+  <circle cx="265" cy="608" r="11" fill="#D84315"/>
+  <text x="265" y="612" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">7</text>
+  <text x="250" y="648" text-anchor="middle" font-size="11" fill="#EF9A9A">审计通过：已提取碎片清除（真遗忘）</text>
+
+  <!-- ⑧ 长尾外置 -->
+  <rect x="980" y="560" width="180" height="70" fill="#E0F2F1" stroke="#00897B" stroke-width="1.5"/>
+  <text x="1070" y="590" text-anchor="middle" font-size="12" font-weight="700" fill="#00695C">RAG 知识库</text>
+  <text x="1070" y="612" text-anchor="middle" font-size="11" fill="#3C4043">（外置汇合）</text>
+  <line x1="764" y1="600" x2="976" y2="600" stroke="#00897B" stroke-width="2" marker-end="url(#mT)"/>
+  <circle cx="870" cy="586" r="11" fill="#D84315"/>
+  <text x="870" y="590" text-anchor="middle" font-size="12" font-weight="700" fill="#FFFFFF">8</text>
+  <text x="870" y="626" text-anchor="middle" font-size="11" fill="#80CBC4">长尾事实外置</text>
+
+  <!-- ================= 带三：重生 ================= -->
+  <rect x="40" y="710" width="1120" height="130" fill="#F1F8F2" stroke="#A5D6A7" stroke-width="1.5"/>
+  <text x="65" y="740" font-size="16" font-weight="700" fill="#2E7D32">♻ 定期 · 重生（数月 / 数年一次：婴儿期遗忘式大蒸馏）</text>
+
+  <rect x="180" y="755" width="240" height="62" fill="#E8F0FE" stroke="#1A73E8" stroke-width="1.5"/>
+  <text x="300" y="781" text-anchor="middle" font-size="14" font-weight="700" fill="#1A73E8">教师大模型</text>
+  <text x="300" y="803" text-anchor="middle" font-size="11" fill="#3C4043">（已完成多轮醒睡周期）</text>
+
+  <line x1="424" y1="786" x2="566" y2="786" stroke="#D84315" stroke-width="3" marker-end="url(#mO)"/>
+  <text x="495" y="774" text-anchor="middle" font-size="12" font-weight="600" fill="#D84315">重生蒸馏</text>
+  <text x="495" y="812" text-anchor="middle" font-size="10" fill="#5F6368">素材销毁，函数留下</text>
+
+  <rect x="570" y="755" width="260" height="62" fill="#C8E6C9" stroke="#2E7D32" stroke-width="1.5"/>
+  <text x="700" y="781" text-anchor="middle" font-size="14" font-weight="700" fill="#2E7D32">学生小模型</text>
+  <text x="700" y="803" text-anchor="middle" font-size="11" fill="#3C4043">"三岁以后"出生：不带记忆，只带函数</text>
+
+  <text x="880" y="778" font-size="13" font-weight="700" fill="#188038">产出 ① 变强：元知识沉淀进权重</text>
+  <text x="880" y="804" font-size="13" font-weight="700" fill="#188038">产出 ② 变小：成本下降一个数量级</text>
+</svg>
