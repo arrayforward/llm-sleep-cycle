@@ -1,0 +1,57 @@
+=== SKIP A seed 3 (已完成) ===
+=== SKIP A seed 4 (已完成) ===
+=== SKIP B seed 3 (已完成) ===
+=== SKIP B seed 4 (已完成) ===
+=== RUN C1 seed 3 ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 5.631s/step, 0.409s/eval-sample → 单 run 约 94.9 min, 预计总时长 94.9 min (1.58 h)
+[C1] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=analytic
+[C1] step     1  loss 3.7788  1.915s/step  eta 31.9min
+[C1] step   200  loss 1.6834  1.671s/step  eta 22.3min
+[C1] step   400  loss 1.7045  1.756s/step  eta 17.6min
+[C1] step   600  loss 1.3732  1.973s/step  eta 13.2min
+[C1] step   800  loss 1.5747  2.160s/step  eta 7.2min
+[C1] step  1000  loss 1.5558  2.251s/step  eta 0.0min
+[done] C1 seed=3  acc=0.833/0.587  mae=70ms  coll=2/8  cent=4.82px  (2256s)
+全部完成 -> sweep_results.jsonl
+=== RUN C1 seed 4 ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 3.888s/step, 0.356s/eval-sample → 单 run 约 65.7 min, 预计总时长 65.7 min (1.09 h)
+[C1] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=analytic
+[C1] step     1  loss 3.8468  1.079s/step  eta 18.0min
+[C1] step   200  loss 1.3557  1.104s/step  eta 14.7min
+[C1] step   400  loss 1.4791  1.258s/step  eta 12.6min
+[C1] step   600  loss 1.3789  1.515s/step  eta 10.1min
+[C1] step   800  loss 1.4941  1.799s/step  eta 6.0min
+[C1] step  1000  loss 1.7708  2.064s/step  eta 0.0min
+[done] C1 seed=4  acc=0.787/0.587  mae=73ms  coll=2/8  cent=4.69px  (2068s)
+全部完成 -> sweep_results.jsonl
+=== RUN C2 seed 3 ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 4.183s/step, 0.334s/eval-sample → 单 run 约 70.6 min, 预计总时长 70.6 min (1.18 h)
+[C2] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=adaptive
+[C2] step     1  loss 5.1100  1.048s/step  eta 17.4min
+[C2] step   200  loss 1.7008  1.018s/step  eta 13.6min
+[C2] step   400  loss 1.9834  1.127s/step  eta 11.3min
+[C2] step   600  loss 1.6052  1.304s/step  eta 8.7min
+[C2] step   800  loss 1.8728  1.514s/step  eta 5.0min
+[C2] step  1000  loss 1.7009  1.694s/step  eta 0.0min
+[done] C2 seed=3  acc=0.800/0.587  mae=69ms  coll=1/8  cent=4.80px  (1698s)
+全部完成 -> sweep_results.jsonl
+=== RUN C2 seed 4 ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 4.846s/step, 0.372s/eval-sample → 单 run 约 81.7 min, 预计总时长 81.7 min (1.36 h)
+[C2] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=adaptive
+[C2] step     1  loss 4.9105  1.150s/step  eta 19.1min
+[C2] step   200  loss 1.7002  1.062s/step  eta 14.2min
+[C2] step   400  loss 1.9025  1.154s/step  eta 11.5min
+[C2] step   600  loss 1.4231  1.326s/step  eta 8.8min
+[C2] step   800  loss 1.7436  1.531s/step  eta 5.1min
+[C2] step  1000  loss 1.7930  1.706s/step  eta 0.0min
+[done] C2 seed=4  acc=0.800/0.587  mae=64ms  coll=1/8  cent=4.47px  (1710s)
+全部完成 -> sweep_results.jsonl
+=== DRIVER DONE (seeds: 3 4) ===

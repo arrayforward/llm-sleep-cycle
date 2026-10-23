@@ -1,0 +1,22 @@
+sweep: 2 配置 × 1 种子 = 2 runs, 每 run 100 步 + 评估 n=200
+标定中（3 步训练 + 10 样本评估）...
+标定: 1.850s/step, 0.115s/eval-sample → 单 run 约 3.5 min, 预计总时长 6.9 min (0.12 h)
+[A] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=0.0 alpha=0.0 g_mode=None
+[A] step     1  loss 0.7017  0.636s/step  eta 1.0min
+[A] step    20  loss 0.3202  0.610s/step  eta 0.8min
+[A] step    40  loss 0.3646  0.761s/step  eta 0.8min
+[A] step    60  loss 0.3323  0.946s/step  eta 0.6min
+[A] step    80  loss 0.3708  1.309s/step  eta 0.4min
+[A] step   100  loss 0.3485  1.534s/step  eta 0.0min
+[A] saved -> ckpt_ev_A_s0.pt  total 2.6 min
+[done] A seed=0  acc=0.385/0.565  mae=185ms  coll=0/10  cent=4.98px  (157s)
+[C1] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=analytic
+[C1] step     1  loss 3.9522  1.304s/step  eta 2.2min
+[C1] step    20  loss 2.5729  1.079s/step  eta 1.4min
+[C1] step    40  loss 2.2468  1.286s/step  eta 1.3min
+[C1] step    60  loss 2.2016  1.491s/step  eta 1.0min
+[C1] step    80  loss 2.1732  1.685s/step  eta 0.6min
+[C1] step   100  loss 1.9194  1.900s/step  eta 0.0min
+[C1] saved -> ckpt_ev_C1_s0.pt  total 3.2 min
+[done] C1 seed=0  acc=0.635/0.565  mae=79ms  coll=0/10  cent=5.31px  (193s)
+全部完成 -> sweep_results.jsonl

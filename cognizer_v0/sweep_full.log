@@ -1,0 +1,24 @@
+sweep: 4 配置 × 5 种子 = 20 runs, 每 run 1000 步 + 评估 n=200
+标定中（3 步训练 + 10 样本评估）...
+标定: 2.750s/step, 0.170s/eval-sample → 单 run 约 46.4 min, 预计总时长 928.1 min (15.47 h)
+[A] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=0.0 alpha=0.0 g_mode=None
+[A] step     1  loss 0.7066  0.942s/step  eta 15.7min
+[A] step   200  loss 0.2321  0.935s/step  eta 12.5min
+[A] step   400  loss 0.2457  1.076s/step  eta 10.8min
+Traceback (most recent call last):
+  File "D:\ai-app\forget\cognizer_v0\run_sweep.py", line 99, in <module>
+    main()
+  File "D:\ai-app\forget\cognizer_v0\run_sweep.py", line 76, in main
+    model, info = event_train.train(
+                  ^^^^^^^^^^^^^^^^^^
+  File "D:\ai-app\forget\cognizer_v0\event_train.py", line 161, in train
+    opt.zero_grad(); loss.backward()
+                     ^^^^^^^^^^^^^^^
+  File "C:\Users\hubinix\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\_tensor.py", line 623, in backward
+    torch.autograd.backward(
+  File "C:\Users\hubinix\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\autograd\__init__.py", line 395, in backward
+    _engine_run_backward(
+  File "C:\Users\hubinix\AppData\Local\Programs\Python\Python312\Lib\site-packages\torch\autograd\graph.py", line 1072, in _engine_run_backward
+    return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: [enforce fail at alloc_cpu.cpp:117] data. DefaultCPUAllocator: not enough memory: you tried to allocate 9437184 bytes.
