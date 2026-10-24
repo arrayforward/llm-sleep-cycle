@@ -1,0 +1,138 @@
+=== TRAIN A seed 0 (无 ckpt_ev_A_s0.pt，先训练) ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 3.648s/step, 0.273s/eval-sample → 单 run 约 61.5 min, 预计总时长 61.5 min (1.02 h)
+[A] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=0.0 alpha=0.0 g_mode=None
+[A] step     1  loss 0.6978  1.173s/step  eta 19.5min
+[A] step   200  loss 0.2199  0.974s/step  eta 13.0min
+[A] step   400  loss 0.2591  1.170s/step  eta 11.7min
+[A] step   600  loss 0.2665  1.564s/step  eta 10.4min
+[A] step   800  loss 0.2896  2.017s/step  eta 6.7min
+[A] step  1000  loss 0.2669  2.435s/step  eta 0.0min
+[A] saved -> ckpt_ev_A_s0.pt  total 40.6 min
+[done] A seed=0  acc=0.367/0.587  mae=175ms  coll=0/8  cent=4.83px  (2439s)
+全部完成 -> sweep_results.jsonl
+=== EVAL A seed 0 ===
+[skip] A s0 已有全部 5 个 Δt 行
+done -> dt_spectrum.jsonl
+=== TRAIN A seed 1 (无 ckpt_ev_A_s1.pt，先训练) ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 3.941s/step, 0.468s/eval-sample → 单 run 约 66.9 min, 预计总时长 66.9 min (1.11 h)
+[A] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=0.0 alpha=0.0 g_mode=None
+[A] step     1  loss 0.6855  1.040s/step  eta 17.3min
+[A] step   200  loss 0.1819  1.149s/step  eta 15.3min
+[A] step   400  loss 0.2835  1.313s/step  eta 13.1min
+[A] step   600  loss 0.2621  1.616s/step  eta 10.8min
+[A] step   800  loss 0.3261  2.004s/step  eta 6.7min
+[A] step  1000  loss 0.2726  2.361s/step  eta 0.0min
+[A] saved -> ckpt_ev_A_s1.pt  total 39.4 min
+[done] A seed=1  acc=0.053/0.587  mae=138ms  coll=8/8  cent=4.81px  (2366s)
+全部完成 -> sweep_results.jsonl
+=== EVAL A seed 1 ===
+[skip] A s1 已有全部 5 个 Δt 行
+done -> dt_spectrum.jsonl
+=== TRAIN C1 seed 0 (无 ckpt_ev_C1_s0.pt，先训练) ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 4.727s/step, 0.359s/eval-sample → 单 run 约 79.7 min, 预计总时长 79.7 min (1.33 h)
+[C1] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=analytic
+[C1] step     1  loss 3.8297  1.182s/step  eta 19.7min
+[C1] step   200  loss 1.4579  1.262s/step  eta 16.8min
+[C1] step   400  loss 1.5114  1.383s/step  eta 13.8min
+[C1] step   600  loss 1.3774  1.609s/step  eta 10.7min
+[C1] step   800  loss 1.2926  1.916s/step  eta 6.4min
+[C1] step  1000  loss 1.3444  2.052s/step  eta 0.0min
+[C1] saved -> ckpt_ev_C1_s0.pt  total 34.2 min
+[done] C1 seed=0  acc=0.793/0.587  mae=67ms  coll=2/8  cent=5.07px  (2055s)
+全部完成 -> sweep_results.jsonl
+=== EVAL C1 seed 0 ===
+[skip] C1 s0 已有全部 5 个 Δt 行
+done -> dt_spectrum.jsonl
+=== TRAIN C1 seed 1 (无 ckpt_ev_C1_s1.pt，先训练) ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 2.571s/step, 0.237s/eval-sample → 单 run 约 43.4 min, 预计总时长 43.4 min (0.72 h)
+[C1] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=analytic
+[C1] step     1  loss 3.7118  0.623s/step  eta 10.4min
+[C1] step   200  loss 1.3950  0.672s/step  eta 9.0min
+[C1] step   400  loss 1.4923  0.821s/step  eta 8.2min
+[C1] step   600  loss 1.3944  1.003s/step  eta 6.7min
+[C1] step   800  loss 1.7614  1.103s/step  eta 3.7min
+[C1] step  1000  loss 1.3674  1.309s/step  eta 0.0min
+[C1] saved -> ckpt_ev_C1_s1.pt  total 21.8 min
+[done] C1 seed=1  acc=0.767/0.587  mae=63ms  coll=1/8  cent=4.90px  (1313s)
+全部完成 -> sweep_results.jsonl
+=== EVAL C1 seed 1 ===
+[skip] C1 s1 已有全部 5 个 Δt 行
+done -> dt_spectrum.jsonl
+=== TRAIN C2 seed 0 (无 ckpt_ev_C2_s0.pt，先训练) ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 3.511s/step, 0.302s/eval-sample → 单 run 约 59.3 min, 预计总时长 59.3 min (0.99 h)
+[C2] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=adaptive
+[C2] step     1  loss 5.3108  0.960s/step  eta 16.0min
+[C2] step   200  loss 1.6228  0.916s/step  eta 12.2min
+[C2] step   400  loss 1.8379  0.893s/step  eta 8.9min
+[C2] step   600  loss 1.4711  1.012s/step  eta 6.7min
+[C2] step   800  loss 1.5186  1.162s/step  eta 3.9min
+[C2] step  1000  loss 1.4772  1.417s/step  eta 0.0min
+[C2] saved -> ckpt_ev_C2_s0.pt  total 23.6 min
+[done] C2 seed=0  acc=0.840/0.587  mae=63ms  coll=2/8  cent=4.78px  (1420s)
+全部完成 -> sweep_results.jsonl
+=== EVAL C2 seed 0 ===
+[skip] C2 s0 已有全部 5 个 Δt 行
+done -> dt_spectrum.jsonl
+=== TRAIN C2 seed 1 (无 ckpt_ev_C2_s1.pt，先训练) ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 3.348s/step, 0.266s/eval-sample → 单 run 约 56.5 min, 预计总时长 56.5 min (0.94 h)
+[C2] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=adaptive
+[C2] step     1  loss 5.2722  0.809s/step  eta 13.5min
+[C2] step   200  loss 1.5826  0.918s/step  eta 12.2min
+[C2] step   400  loss 1.8967  1.029s/step  eta 10.3min
+[C2] step   600  loss 1.5778  1.220s/step  eta 8.1min
+[C2] step   800  loss 1.8911  1.380s/step  eta 4.6min
+[C2] step  1000  loss 1.6190  1.500s/step  eta 0.0min
+[C2] saved -> ckpt_ev_C2_s1.pt  total 25.0 min
+[done] C2 seed=1  acc=0.773/0.587  mae=69ms  coll=2/8  cent=4.45px  (1504s)
+全部完成 -> sweep_results.jsonl
+=== EVAL C2 seed 1 ===
+[skip] C2 s1 已有全部 5 个 Δt 行
+done -> dt_spectrum.jsonl
+=== DT DRIVER DONE (seeds: 0 1) ===
+n
+[C2] step   800  loss 1.5186  1.231s/step  eta 4.1min
+[C2] step  1000  loss 1.4772  1.441s/step  eta 0.0min
+[C2] saved -> ckpt_ev_C2_s0.pt  total 24.0 min
+[done] C2 seed=0  acc=0.840/0.587  mae=63ms  coll=2/8  cent=4.78px  (1444s)
+全部完成 -> sweep_results.jsonl
+=== EVAL C2 seed 0 ===
+[C2 s0] dt=0.05s  all   3.09px  evt   3.53px (n= 76)  smo   2.64px (n= 74)
+[C2 s0] dt=0.25s  all   4.56px  evt   4.43px (n= 83)  smo   4.73px (n= 67)
+[C2 s0] dt=0.50s  all   6.79px  evt   7.63px (n= 61)  smo   6.21px (n= 89)
+[C2 s0] dt=1.00s  all  12.21px  evt  11.08px (n= 44)  smo  12.68px (n=106)
+[C2 s0] dt=2.00s  all  26.01px  evt  27.13px (n= 46)  smo  25.52px (n=104)
+done -> dt_spectrum.jsonl
+=== TRAIN C2 seed 1 (无 ckpt_ev_C2_s1.pt，先训练) ===
+sweep: 1 配置 × 1 种子 = 1 runs, 每 run 1000 步 + 评估 n=150
+标定中（3 步训练 + 10 样本评估）...
+标定: 3.174s/step, 0.247s/eval-sample → 单 run 约 53.5 min, 预计总时长 53.5 min (0.89 h)
+[C2] params: 515,052 (515K) | ehead: 290,887 (290.9K) | lam_ev=1.0 alpha=5.0 g_mode=adaptive
+[C2] step     1  loss 5.2722  0.971s/step  eta 16.2min
+[C2] step   200  loss 1.5826  0.860s/step  eta 11.5min
+[C2] step   400  loss 1.8967  0.966s/step  eta 9.7min
+[C2] step   600  loss 1.5778  1.177s/step  eta 7.8min
+[C2] step   800  loss 1.8911  1.357s/step  eta 4.5min
+[C2] step  1000  loss 1.6190  1.502s/step  eta 0.0min
+[C2] saved -> ckpt_ev_C2_s1.pt  total 25.0 min
+[done] C2 seed=1  acc=0.773/0.587  mae=69ms  coll=2/8  cent=4.45px  (1505s)
+全部完成 -> sweep_results.jsonl
+=== EVAL C2 seed 1 ===
+[C2 s1] dt=0.05s  all   3.15px  evt   3.79px (n= 76)  smo   2.50px (n= 74)
+[C2 s1] dt=0.25s  all   4.77px  evt   4.53px (n= 83)  smo   5.06px (n= 67)
+[C2 s1] dt=0.50s  all   7.61px  evt   8.07px (n= 61)  smo   7.30px (n= 89)
+[C2 s1] dt=1.00s  all  13.82px  evt  13.46px (n= 44)  smo  13.96px (n=106)
+[C2 s1] dt=2.00s  all  25.87px  evt  27.56px (n= 46)  smo  25.12px (n=104)
+done -> dt_spectrum.jsonl
+=== DT DRIVER DONE (seeds: 0 1) ===

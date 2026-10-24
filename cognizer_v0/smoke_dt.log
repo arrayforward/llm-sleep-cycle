@@ -1,0 +1,11 @@
+[A s0] dt=0.05s  all   4.88px  evt   5.72px (n= 76)  smo   4.01px (n= 74)
+[A s0] dt=0.25s  all   5.50px  evt   5.91px (n= 83)  smo   4.99px (n= 67)
+[A s0] dt=0.50s  all   8.90px  evt   9.43px (n= 61)  smo   8.54px (n= 89)
+[A s0] dt=1.00s  all  18.69px  evt  17.66px (n= 44)  smo  19.12px (n=106)
+[A s0] dt=2.00s  all  31.25px  evt  32.22px (n= 46)  smo  30.82px (n=104)
+[C1 s0] dt=0.05s  all   4.66px  evt   5.51px (n= 76)  smo   3.78px (n= 74)
+[C1 s0] dt=0.25s  all   5.53px  evt   5.89px (n= 83)  smo   5.08px (n= 67)
+[C1 s0] dt=0.50s  all   9.29px  evt   9.92px (n= 61)  smo   8.86px (n= 89)
+[C1 s0] dt=1.00s  all  20.10px  evt  21.51px (n= 44)  smo  19.51px (n=106)
+[C1 s0] dt=2.00s  all  28.68px  evt  31.22px (n= 46)  smo  27.55px (n=104)
+done -> dt_spectrum.jsonl
